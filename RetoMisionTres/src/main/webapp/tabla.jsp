@@ -81,14 +81,25 @@
             int totalPaginas = (int) Math.ceil(totalRegistros / (double) registrosPorPagina);  // Asegúrate de usar double para evitar truncamiento
 
             // Consulta para obtener los registros de la página actual
-            String consulta = "SELECT ed.id, es.name, ed.year, ed.production, ed.consumption "
+            String consultaT1 = "SELECT ed.id, es.name, ed.year, ed.production, ed.consumption "
                     + "FROM EnergyData ed "
                     + "JOIN EnergySource es ON ed.source_id = es.id "
                     + "ORDER BY ed.id ASC LIMIT ?, ?";
-            PreparedStatement ps = cnx.prepareStatement(consulta);
-            ps.setInt(1, inicio);
-            ps.setInt(2, registrosPorPagina);
-            ResultSet rs = ps.executeQuery();
+            
+            PreparedStatement pst1;
+            ResultSet rst1;
+            
+            PreparedStatement pst2;
+            ResultSet rst2;
+            pst1 = cnx.prepareStatement(consultaT1);
+            pst1.setInt(1, inicio);
+            pst1.setInt(2, registrosPorPagina);
+            rst1 = pst1.executeQuery();
+            
+            String consultaT2 = "SELECT name,description FROM EnergySource";
+            
+            pst2 = cnx.prepareStatement(consultaT2);
+            rst2 = pst2.executeQuery();
 
         %>
         <!-- Final configuración  -->
@@ -96,12 +107,39 @@
         <!-- Table Start -->
         <div class="container">
             <div class="row align-items-start">
-                <div class="col-12">
+                <div class="col-6">
+                    <div class="col text-center">
+                        <h2 class="text-center mt-5 mb-4">Tabla de Informacion de Energía Renovable</h2>
+                        <p class="text-center">Esta información fue obtenida desde la base de datos</p>
+                    </div>
+                    <table class="table table-striped-columns">
+                        <thead>
+                            <tr>
+                                <!--<th>Id</th>  -->
+                                <th>Nombre</th>
+                                <th>Descripcion</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpo-tabla">
+                            <%  // Recorrer los resultados y mostrar los registros
+                                while (rst2.next()) {
+                            %>
+                            <tr>
+
+                                <td><%= rst2.getString("name")%></td>
+                                <td><%= rst2.getString("description")%></td>
+                            </tr>
+                            <%
+                                }
+                            %>
+                        </tbody>
+                    </table>
+                </div>  
+                <div class="col-6 ">
                     <div class="col text-center">
                         <h2 class="text-center mt-5 mb-4">Tabla de Registro de Energía Renovable</h2>
                         <p class="text-center">Esta información fue obtenida desde la base de datos</p>
                     </div>
-
                     <table class="table table-striped-columns" id="tablaDatos">
                         <thead>
                             <tr>
@@ -114,14 +152,13 @@
                         </thead>
                         <tbody id="cuerpo-tabla">
                             <%  // Recorrer los resultados y mostrar los registros
-                                while (rs.next()) {
+                                while (rst1.next()) {
                             %>
                             <tr>
-                                <!-- <td><%= rs.getInt("id")%></td> -->
-                                <td><%= rs.getString("name")%></td>
-                                <td><%= rs.getInt("year")%></td>
-                                <td><%= rs.getDouble("production")%></td>
-                                <td><%= rs.getDouble("consumption")%></td>
+                                <td><%= rst1.getString("name")%></td>
+                                <td><%= rst1.getInt("year")%></td>
+                                <td><%= rst1.getDouble("production")%></td>
+                                <td><%= rst1.getDouble("consumption")%></td>
                             </tr>
                             <%
                                 }
@@ -140,9 +177,7 @@
 
                                 <!-- Páginas -->
                                 <%
-                                    for (int i = 1;
-                                            i <= totalPaginas;
-                                            i++) {
+                                    for (int i = 1; i <= totalPaginas; i++) {
                                 %>
                                 <li class="page-item <%= i == paginaActual ? "active" : ""%>">
                                     <a class="page-link" href="?page=<%= i%>"><%= i%></a>
@@ -158,7 +193,7 @@
                             </ul>
                         </nav>
                     </div>
-                </div>
+                </div>             
             </div>
         </div>
         <!-- Table End -->

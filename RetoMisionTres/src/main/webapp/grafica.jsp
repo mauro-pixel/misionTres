@@ -64,8 +64,11 @@
                     + "JOIN EnergySource es ON ed.source_id = es.id "
                     + "ORDER BY es.name, ed.year ASC";
 
-            PreparedStatement ps = cnx.prepareStatement(consulta);
-            ResultSet rs = ps.executeQuery();
+            PreparedStatement ps;
+            ResultSet rs;
+            
+            ps = cnx.prepareStatement(consulta);
+            rs = ps.executeQuery();
 
             // Arrays para almacenar los datos que se van a pasar al gráfico
             List<String> labelsList = new ArrayList<>();
