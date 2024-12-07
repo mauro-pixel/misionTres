@@ -1,0 +1,62 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f8ff;
+    color: #333;
+    line-height: 1.6;
+}
+
+.hero-section {
+  height: 400px;
+  color: black;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.icon-box {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.icon-box i {
+  font-size: 50px;
+  color: #00bfae;
+}
+
+.container {
+  max-width: 900px;
+  margin-top: 50px;
+}
+.container {
+  max-width: 800px;
+}
+
+.modal-header {
+  background-color: #007bff;
+  color: white;
+}
+
+.hero-section {
+  position: relative;
+  height: 50vh;
+  /* Asegura que la sección ocupe toda la altura de la pantalla */
+  background-image: url('../img/img5.jpg');
+  /* Coloca la ruta de la imagen aquí */
+  background-size: cover;
+  /* Asegura que la imagen cubra toda el área */
+  background-position: center center;
+  /* Centra la imagen */
+  background-repeat: no-repeat;
+  /* Evita que la imagen se repita */
+  overflow: hidden;
+  /* Evita que la imagen se desborde */
+opacity: .8;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  padding: 20px;
+  background: rgba(134, 244, 241, 0.416);
+}
